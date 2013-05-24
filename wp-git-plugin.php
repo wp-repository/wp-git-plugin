@@ -73,18 +73,12 @@ if ( !class_exists('WPGitPlugin') ) {
             add_action( 'add_meta_boxes', array( $this, 'properties_meta_boxes') ); 
             add_action( 'save_post', array( $this, 'save_meta_data') );
             add_action( 'admin_menu' , array( $this, 'remove_taxonomy_boxes') );
-            add_action( 'admin_enqueue_scripts', array( &$this, 'admin_scripts'));
             add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
             
         }
 
         protected function network_admin_init() {
 
-        }
-        
-        function admin_scripts() {
-            wp_register_script('wp-git-js', plugins_url('js/wp-git.js', __FILE__), array(), self::VERSION, true);
-            wp_enqueue_script('wp-git-js');
         }
         
         function remove_taxonomy_boxes() {  
@@ -307,12 +301,6 @@ if ( !class_exists('WPGitPlugin') ) {
                     'id'    => $this->prefix.'plugin_github_repo',
                     'placeholder'    => 'plugin-name',
                     'type'  => 'text'
-                ),
-                array(  
-                    'label' => __('Maintainer(s)', self::ID),  
-                    'desc'  => __('Add all maintainers with their GitHub usernames', self::ID),  
-                    'id'    => $this->prefix.'plugin-maintainers',  
-                    'type'  => 'repeatable'  
                 )
             );
 
@@ -374,30 +362,20 @@ if ( !class_exists('WPGitPlugin') ) {
                                 }  
                                 $taxonomy = get_taxonomy($field['id']);
                                 echo '</select><br /><span class="description"><a href="'.get_bloginfo('home').'/wp-admin/edit-tags.php?taxonomy='.$field['id'].'&post_type=plugin">' . sprintf( __('Manage %s', self::ID), $taxonomy->label ) . '</a></span>';  
-                            break;
-                            // repeatable  
-                            case 'repeatable':  
-                                echo '<a class="repeatable-add button" href="#">+</a> 
-                                        <ul id="'.$field['id'].'-repeatable" class="custom_repeatable">';  
-                                $i = 0;  
-                                if ($meta) {  
-                                    foreach($meta as $row) {  
-                                        echo '<li><span class="sort hndle">|||</span> 
-                                                    <input type="text" name="'.$field['id'].'['.$i.']" id="'.$field['id'].'" value="'.$row.'" size="30" /> 
-                                                    <a class="repeatable-remove button" href="#">-</a></li>';  
-                                        $i++;  
-                                    }  
-                                } else {  
-                                    echo '<li><span class="sort hndle">|||</span> 
-                                                <input type="text" name="'.$field['id'].'['.$i.']" id="'.$field['id'].'" value="" size="30" /> 
-                                                <a class="repeatable-remove button" href="#">-</a></li>';  
-                                }  
-                                echo '</ul> 
-                                    <span class="description">'.$field['desc'].'</span>';  
                             break;  
                         } //end switch  
                 echo '</td></tr>';  
-            } // end foreach  
+            } // end foreach
+            echo '
+                <tr>
+                    <th>' . __('Maintainer(s)/Collaborator(s)', self::ID) . ':</th> 
+                    <td>' . __('will be fetched from GitHub directly and refreshed daily', self::ID) . '</td>
+                </tr>';
+            echo '
+                <tr>
+                    <th>' . __('Contributors(s)', self::ID) . ':</th> 
+                    <td>' . __('will be fetched from GitHub directly and refreshed daily', self::ID) . '</td>
+                </tr>';
             echo '</table>'; // end table 
 
         }  
