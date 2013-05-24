@@ -33,33 +33,34 @@ if ( !class_exists('WPGitPlugin') ) {
 
 	class WPGitPlugin {
         
-        const ID		= 'wp-git-plugin'; // TODO:
-		const KEY		= 'wp_git_plugin'; // TODO:
-		const NAME		= 'WP-Git Plugin'; // TODO:
-		const VERSION	= '0.1-dev'; // TODO:
+        const ID		= 'wp-git-plugin';
+		const KEY		= 'wp_git_plugin';
+		const NAME		= 'WP-Git Plugin';
+		const VERSION	= '0.1-dev';
 
 		protected $prefix = 'wp_git_plugin_';
 
 		public function __construct() {
 			$this->init();
 
-                if ( !is_admin() ) {
-                        // frontend
-                        $this->frontend_init();
-                }
+            if ( !is_admin() ) {
+                // frontend
+                $this->frontend_init();
+            }
 
-                if ( is_admin() ) {
-                        // wp-admin
-                        $this->admin_init();
-                        if ( is_network_admin() ) {
-                                // wp-admin/network
-                                $this->network_admin_init();     
-                        }
+            if ( is_admin() ) {
+                // wp-admin
+                $this->admin_init();
+                if ( is_network_admin() ) {
+                        // wp-admin/network
+                        $this->network_admin_init();     
                 }
+            }
+            register_activation_hook( __FILE__, array( 'WPGitPlugin', 'activation') );
 		}
 
 		protected function init() {
-
+            add_action( 'init', array( $this, 'plugins_post_type') );
 		}
 
 		protected function frontend_init() {
@@ -74,12 +75,57 @@ if ( !class_exists('WPGitPlugin') ) {
 
 		}
         
-		function __construct() {
-			
-		}
+        function plugins_post_type() {
+            $labels = array(
+                'name' => __('Plugins', self::ID),
+                'singular_name' => __('Plugin', self::ID),
+                'add_new' => __('Add New'),
+                'add_new_item' => __('Add New Plugin', self::ID),
+                'edit_item' => __('Edit Plugin', self::ID),
+                'new_item' => __('New Plugin', self::ID),
+                'view_item' => __('View Plugin', self::ID),
+                'search_items' => __('Search Plugins', self::ID),
+                'not_found' =>  __('No Plugins found', self::ID),
+                'not_found_in_trash' => __('No Plugins in the trash', self::ID),
+                'parent_item_colon' => '',
+            );
+
+            register_post_type(
+                'plugins', 
+                array(
+                    'labels' => $labels,
+                    'public' => true,
+                    'publicly_queryable' => true,
+                    'show_ui' => true,
+                    'exclude_from_search' => false,
+                    'query_var' => true,
+                    'rewrite' => true, // check
+                    'capability_type' => 'post',
+                    //'capabilities' => '';
+                    'has_archive' => true,
+                    'hierarchical' => false,
+                    'menu_position' => 10,
+                    'supports' => array( 'editor' ),
+                    'register_meta_box_cb' => 'testimonials_meta_boxes',
+                )
+            );
+        }
+        
+        function activation() {
+            // First, we "add" the custom post type via the above written function.
+            // Note: "add" is written with quotes, as CPTs don't get added to the DB,
+            // They are only referenced in the post_type column with a post entry, 
+            // when you add a post of this CPT.
+            plugins_post_type();
+
+            // ATTENTION: This is *only* done during plugin activation hook in this example!
+            // You should *NEVER EVER* do this on every page load!!
+            flush_rewrite_rules();
+        }
+        
 
 		function localization() {
-			load_plugin_textdomain( 'multisite-plugin-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+			load_plugin_textdomain( 'wp-git-plugin', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 		}
         
         function set_plugin_meta( $links, $file ) {	

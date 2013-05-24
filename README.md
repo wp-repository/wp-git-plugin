@@ -2,7 +2,6 @@
 __Manage SVN2Git mirror sync and other Git-related services for WP-Repository.org__
 
 
-
 | *                 | WordPress					| Version			| *		| Development				|					|
 | :----             | ----:						| :----				| :---: | :----						| :----				|
 | [Homepage][1.1]   | Requires at least:		| __TBD__			| *		| [GitHub-Repository][1.3]	| [Translate][1.7]	|
@@ -36,9 +35,10 @@ __[GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)__
 
 	Copyright (C) 2013 Foe Services Labs (http://labs.foe-services.de)
 
-	This program is free software; you can redistribute it and/or modify
-	it under the terms of the GNU General Public License, version 2, as 
-	published by the Free Software Foundation.
+    This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation; either version 2
+	of the License, or (at your option) any later version.
 
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -46,13 +46,11 @@ __[GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)__
 	GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 ## Changelog
 * __0.1-dev__ _[future plans/roadmap][4.1]_
-	* added build testing via travis-ci.org
-	* added custom unit tests @TODO
 	* TBD
 
 [4.1]: ../../issues
