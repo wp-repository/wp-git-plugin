@@ -34,14 +34,14 @@ if ( !class_exists('WPGitPlugin') ) {
 	class WPGitPlugin {
         
         const ID		= 'wp-git-plugin';
-		const KEY		= 'wp_git_plugin';
-		const NAME		= 'WP-Git Plugin';
-		const VERSION	= '0.1-dev';
+        const KEY		= 'wp_git_plugin';
+        const NAME		= 'WP-Git Plugin';
+        const VERSION	= '0.1-dev';
 
-		protected $prefix = 'wp_git_plugin_';
+        protected $prefix = 'wp_git_plugin_';
 
-		public function __construct() {
-			$this->init();
+        public function __construct() {
+            $this->init();
 
             if ( !is_admin() ) {
                 // frontend
@@ -52,31 +52,31 @@ if ( !class_exists('WPGitPlugin') ) {
                 // wp-admin
                 $this->admin_init();
                 if ( is_network_admin() ) {
-                        // wp-admin/network
-                        $this->network_admin_init();     
+                    // wp-admin/network
+                    $this->network_admin_init();     
                 }
             }
             register_activation_hook( __FILE__, array( 'WPGitPlugin', 'activation') );
             register_deactivation_hook( __FILE__, array( 'WPGitPlugin', 'deactivation') );
-		}
+        }
 
-		protected function init() {
+        protected function init() {
             add_action( 'init', array( $this, 'add_plugin_cpt') );
             add_action( 'init', array( $this, 'add_theme_cpt') );
-		}
+        }
 
-		protected function frontend_init() {
+        protected function frontend_init() {
 
-		}
+        }
 
-		protected function admin_init() {
+        protected function admin_init() {
             add_action( 'add_meta_boxes', array( $this, 'properties_meta_boxes') );  
             add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
-		}
+        }
 
-		protected function network_admin_init() {
+        protected function network_admin_init() {
 
-		}
+        }
         
         function add_plugin_cpt() {
             // set lables for plugins cpts
