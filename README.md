@@ -1,13 +1,13 @@
-# WP-Git Plugin [![Build Status](https://travis-ci.org/wp-repository/wp-git-plugin.png?branch=master)](https://travis-ci.org/wp-repository/wp-git-plugin)
+# WP-Git Plugin
 __Manage SVN2Git mirror sync and other Git-related services for WP-Repository.org__
 
-[Homepage][1.1]
 
-| WordPress					| Version			| *		| Development				|					|
-| ----:						| :----				| :---: | :----						| :----				|
-| Requires at least:		| __TBD__			| *		| [GitHub-Repository][1.3]	| [Translate][1.7]	|
-| Tested up to:				| __3.5.1__			| *		| [Issue-Tracker][1.4]		|					|
-| Current stable release:	| __[TBD][1.5]__	| *		| Current dev version:		| [0.1-dev][1.8]	|
+
+| *                 | WordPress					| Version			| *		| Development				|					|
+| :----             | ----:						| :----				| :---: | :----						| :----				|
+| [Homepage][1.1]   | Requires at least:		| __TBD__			| *		| [GitHub-Repository][1.3]	| [Translate][1.7]	|
+| *                 | Tested up to:				| __3.5.1__			| *		| [Issue-Tracker][1.4]		|					|
+| *                 | Current stable release:	| __[TBD][1.5]__	| *		| Current dev version:		| [0.1-dev][1.8]	|
 
 [1.1]: https://github.com/wp-repository/wp-git-plugin
 [1.3]: https://github.com/wp-repository/wp-git-plugin
