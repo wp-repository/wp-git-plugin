@@ -82,8 +82,8 @@ if ( !class_exists('WPGitPlugin') ) {
         }
         
         function remove_taxonomy_boxes() {  
-            remove_meta_box('categorydiv', 'plugin', 'side');
-            remove_meta_box('categorydiv', 'theme', 'side'); 
+            remove_meta_box( 'plugin-categorydiv', 'plugin', 'normal');
+            remove_meta_box( 'theme-categorydiv', 'theme', 'normal'); 
         }
         
         function add_plugin_cpt() {
@@ -91,7 +91,7 @@ if ( !class_exists('WPGitPlugin') ) {
             $plugin_labels = array(
                 'name' => __('Plugins', self::ID),
                 'singular_name' => __('Plugin', self::ID),
-                'add_new' => __('Add New'),
+                'add_new' => __('Add New', self::ID),
                 'add_new_item' => __('Add New Plugin', self::ID),
                 'edit_item' => __('Edit Plugin', self::ID),
                 'new_item' => __('New Plugin', self::ID),
@@ -155,7 +155,7 @@ if ( !class_exists('WPGitPlugin') ) {
             $themes_labels = array(
                 'name' => __('Themes', self::ID),
                 'singular_name' => __('Theme', self::ID),
-                'add_new' => __('Add New'),
+                'add_new' => __('Add New', self::ID),
                 'add_new_item' => __('Add New Theme', self::ID),
                 'edit_item' => __('Edit Theme', self::ID),
                 'new_item' => __('New Theme', self::ID),
@@ -245,7 +245,7 @@ if ( !class_exists('WPGitPlugin') ) {
             $plugin_meta_fields = array(  
                 array(  
                     'label' => __('Description', self::ID),  
-                    'desc'  => __('A description for the field.', self::ID),   
+                    'desc'  => __('The description.', self::ID),   
                     'id'    => $this->prefix.'plugin_desc',  
                     'type'  => 'textarea'  
                 ),
@@ -327,19 +327,6 @@ if ( !class_exists('WPGitPlugin') ) {
                                 echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'.$meta.'</textarea> 
                                     <br /><span class="description">'.$field['desc'].'</span>';  
                             break; 
-                            // checkbox  
-                            case 'checkbox':  
-                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ',$meta ? ' checked="checked"' : '','/> 
-                                    <label for="'.$field['id'].'">'.$field['desc'].'</label>';  
-                            break;
-                            // select  
-                            case 'select':  
-                                echo '<select name="'.$field['id'].'" id="'.$field['id'].'">';  
-                                foreach ($field['options'] as $option) {  
-                                    echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';  
-                                }  
-                                echo '</select><br /><span class="description">'.$field['desc'].'</span>';  
-                            break; 
                             // checkbox_group  
                             case 'checkbox_group':  
                                 foreach ($field['options'] as $option) {  
@@ -373,7 +360,7 @@ if ( !class_exists('WPGitPlugin') ) {
                 </tr>';
             echo '
                 <tr>
-                    <th>' . __('Contributors(s)', self::ID) . ':</th> 
+                    <th>' . __('Contributor(s)', self::ID) . ':</th> 
                     <td>' . __('will be fetched from GitHub directly and refreshed daily', self::ID) . '</td>
                 </tr>';
             echo '</table>'; // end table 
@@ -387,39 +374,63 @@ if ( !class_exists('WPGitPlugin') ) {
             // Field Array  
             $theme_meta_fields = array(  
                 array(  
-                    'label' => 'Text Input',  
-                    'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'theme_text',
-                    'placeholder'    => 'something',
-                    'type'  => 'text'  
-                ),  
-                array(  
-                    'label' => 'Textarea',  
-                    'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'theme_textarea',  
+                    'label' => __('Description', self::ID),  
+                    'desc'  => __('The description.', self::ID),   
+                    'id'    => $this->prefix.'theme_desc',  
                     'type'  => 'textarea'  
-                ),  
+                ),
                 array(  
-                    'label' => 'Checkbox Input',  
-                    'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'theme_checkbox',  
-                    'type'  => 'checkbox'  
-                ),  
+                    'label' => __('Homepage', self::ID),  
+                    'desc'  => __("URL to the theme's homepage, begin with http:// or https://", self::ID),
+                    'id'    => $this->prefix.'theme_url',
+                    'placeholder'    => 'http://',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('Category', self::ID),  
+                    'id'    => 'theme-category',
+                    'type'  => 'tax_select'  
+                ),
+                array(  
+                    'label' => __('Slug', self::ID),  
+                    'desc'  => __('The theme slug.', self::ID),  
+                    'id'    => $this->prefix.'plugin_slug',
+                    'placeholder'    => 'theme-name',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('GitHub user/org name', self::ID),  
+                    'desc'  => __('The GitHub user or organization hosting the repo.', self::ID),  
+                    'id'    => $this->prefix.'theme_github_user',
+                    'placeholder'    => 'wp-repository',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('GitHub repo title', self::ID),  
+                    'desc'  => __('The Repository name on GitHub.', self::ID),  
+                    'id'    => $this->prefix.'theme_github_repo',
+                    'placeholder'    => 'plugin-name',
+                    'type'  => 'text'
+                ),
                 array(  
                     'label' => __('Theme type', self::ID),  
-                    'desc'  => __('A description for the field.', self::ID),  
+                    'desc'  => __('Select the type.', self::ID),  
                     'id'    => $this->prefix.'theme_type',  
                     'type'  => 'select',  
                     'options' => array (  
-                        'one' => array (  
+                        'standalone' => array (  
                             'label' => __('Standalone', self::ID),  
                             'value' => 'standalone'  
                         ),  
-                        'two' => array (  
+                        'child' => array (  
                             'label' => __('Child', self::ID),  
                             'value' => 'child'  
-                        ),  
-                        'three' => array (  
+                        ),
+                        'parent' => array (  
+                            'label' => __('Parent', self::ID),  
+                            'value' => 'parent'  
+                        ),
+                        'framework' => array (  
                             'label' => __('Framework', self::ID),  
                             'value' => 'framework'  
                         )  
@@ -440,10 +451,52 @@ if ( !class_exists('WPGitPlugin') ) {
                         <th><label for="'.$field['id'].'">'.$field['label'].'</label></th> 
                         <td>';  
                         switch($field['type']) {  
-                            // case items will go here  
+                            // text  
+                            case 'text':  
+                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" placeholder="'.$field['placeholder'].'" /> 
+                                    <br /><span class="description">'.$field['desc'].'</span>';  
+                            break; 
+                            // textarea  
+                            case 'textarea':  
+                                echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'.$meta.'</textarea> 
+                                    <br /><span class="description">'.$field['desc'].'</span>';  
+                            break;
+                            // select  
+                            case 'select':  
+                                echo '<select name="'.$field['id'].'" id="'.$field['id'].'">';  
+                                foreach ($field['options'] as $option) {  
+                                    echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';  
+                                }  
+                                echo '</select><br /><span class="description">'.$field['desc'].'</span>';  
+                            break;
+                            // tax_select  
+                            case 'tax_select':  
+                                echo '<select name="'.$field['id'].'" id="'.$field['id'].'"> 
+                                        <option value="">' . __('Select One', self::ID) . '</option>'; // Select One  
+                                $terms = get_terms($field['id'], 'get=all');  
+                                $selected = wp_get_object_terms($post->ID, $field['id']);  
+                                foreach ($terms as $term) {  
+                                    if (!empty($selected) && !strcmp($term->slug, $selected[0]->slug))   
+                                        echo '<option value="'.$term->slug.'" selected="selected">'.$term->name.'</option>';   
+                                    else  
+                                        echo '<option value="'.$term->slug.'">'.$term->name.'</option>';   
+                                }  
+                                $taxonomy = get_taxonomy($field['id']);
+                                echo '</select><br /><span class="description"><a href="'.get_bloginfo('home').'/wp-admin/edit-tags.php?taxonomy='.$field['id'].'&post_type=theme">' . sprintf( __('Manage %s', self::ID), $taxonomy->label ) . '</a></span>';  
+                            break;
                         } //end switch  
                 echo '</td></tr>';  
-            } // end foreach  
+            } // end foreach
+            echo '
+                <tr>
+                    <th>' . __('Maintainer(s)/Collaborator(s)', self::ID) . ':</th> 
+                    <td>' . __('will be fetched from GitHub directly and refreshed daily', self::ID) . '</td>
+                </tr>';
+            echo '
+                <tr>
+                    <th>' . __('Contributor(s)', self::ID) . ':</th> 
+                    <td>' . __('will be fetched from GitHub directly and refreshed daily', self::ID) . '</td>
+                </tr>';
             echo '</table>'; // end table  
         }  
         
