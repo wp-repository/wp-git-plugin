@@ -14,8 +14,7 @@ __Manage SVN2Git mirror sync and other Git-related services for WP-Repository.or
 [1.7]: https://translate.foe-services.de/projects/wp-git-plugin
 [1.8]: https://github.com/wp-repository/wp-git-plugin/archive/master.zip
 
-### Dependencies
-* [PHP GitHub API](https://github.com/KnpLabs/php-github-api)
+__Dependencies:__ [PHP GitHub API](https://github.com/KnpLabs/php-github-api)
 
 ### Description
 Coming Soon
