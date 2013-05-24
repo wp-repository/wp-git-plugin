@@ -110,7 +110,7 @@ if ( !class_exists('WPGitPlugin') ) {
                     'has_archive' => true,
                     'hierarchical' => false,
                     'menu_position' => 10,
-                    'supports' => array( 'title', 'editor', 'thumbnail' ),
+                    'supports' => array( 'title', 'thumbnail' ),
                     // 'register_meta_box_cb' => 'testimonials_meta_boxes',
                 )
             );
@@ -176,7 +176,7 @@ if ( !class_exists('WPGitPlugin') ) {
                     'has_archive' => true,
                     'hierarchical' => false,
                     'menu_position' => 10,
-                    'supports' => array( 'title', 'editor', 'thumbnail' ),
+                    'supports' => array( 'title', 'thumbnail' ),
                     // 'register_meta_box_cb' => 'testimonials_meta_boxes',
                 )
             );
