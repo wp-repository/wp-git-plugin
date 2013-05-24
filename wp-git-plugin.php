@@ -57,10 +57,11 @@ if ( !class_exists('WPGitPlugin') ) {
                 }
             }
             register_activation_hook( __FILE__, array( 'WPGitPlugin', 'activation') );
+            register_deactivation_hook( __FILE__, array( 'WPGitPlugin', 'deactivation') );
 		}
 
 		protected function init() {
-            add_action( 'init', array( $this, 'plugins_post_type') );
+            add_action( 'init', array( $this, 'add_cpts') );
 		}
 
 		protected function frontend_init() {
@@ -75,8 +76,9 @@ if ( !class_exists('WPGitPlugin') ) {
 
 		}
         
-        function plugins_post_type() {
-            $labels = array(
+        function add_cpts() {
+            // set lables for plugins cpts
+            $plugin_labels = array(
                 'name' => __('Plugins', self::ID),
                 'singular_name' => __('Plugin', self::ID),
                 'add_new' => __('Add New'),
@@ -93,7 +95,7 @@ if ( !class_exists('WPGitPlugin') ) {
             register_post_type(
                 'plugins', 
                 array(
-                    'labels' => $labels,
+                    'labels' => $plugin_labels,
                     'public' => true,
                     'publicly_queryable' => true,
                     'show_ui' => true,
@@ -106,23 +108,59 @@ if ( !class_exists('WPGitPlugin') ) {
                     'hierarchical' => false,
                     'menu_position' => 10,
                     'supports' => array( 'editor' ),
-                    'register_meta_box_cb' => 'testimonials_meta_boxes',
+                    // 'register_meta_box_cb' => 'testimonials_meta_boxes',
                 )
             );
+            
+            // set lables for themes cpts
+//            $themes_labels = array(
+//                'name' => __('Themes', self::ID),
+//                'singular_name' => __('Theme', self::ID),
+//                'add_new' => __('Add New'),
+//                'add_new_item' => __('Add New Theme', self::ID),
+//                'edit_item' => __('Edit Theme', self::ID),
+//                'new_item' => __('New Theme', self::ID),
+//                'view_item' => __('View Theme', self::ID),
+//                'search_items' => __('Search Themes', self::ID),
+//                'not_found' =>  __('No Themes found', self::ID),
+//                'not_found_in_trash' => __('No Themes in the trash', self::ID),
+//                'parent_item_colon' => '',
+//            );
+            
+//            register_post_type(
+//                'themes', 
+//                array(
+//                    'labels' => $themes_labels,
+//                    'public' => true,
+//                    'publicly_queryable' => true,
+//                    'show_ui' => true,
+//                    'exclude_from_search' => false,
+//                    'query_var' => true,
+//                    'rewrite' => true, // check
+//                    'capability_type' => 'post',
+//                    //'capabilities' => '';
+//                    'has_archive' => true,
+//                    'hierarchical' => false,
+//                    'menu_position' => 10,
+//                    'supports' => array( 'editor' ),
+//                    // 'register_meta_box_cb' => 'testimonials_meta_boxes',
+//                )
+//            );
+            
         }
         
         function activation() {
-            // First, we "add" the custom post type via the above written function.
-            // Note: "add" is written with quotes, as CPTs don't get added to the DB,
-            // They are only referenced in the post_type column with a post entry, 
-            // when you add a post of this CPT.
-            plugins_post_type();
+            // add CPTs to the system
+            add_cpts();
 
-            // ATTENTION: This is *only* done during plugin activation hook in this example!
-            // You should *NEVER EVER* do this on every page load!!
+            // flush the rewrites to add CPTs
             flush_rewrite_rules();
         }
         
+        function deactivation() {
+            // flush the rewrites to remove CPTs
+            flush_rewrite_rules();
+        }
 
 		function localization() {
 			load_plugin_textdomain( 'wp-git-plugin', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
