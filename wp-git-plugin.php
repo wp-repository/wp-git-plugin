@@ -32,13 +32,64 @@ Domain Path: /languages
 if ( !class_exists('WPGitPlugin') ) { 
 
 	class WPGitPlugin {
+        
+        const ID		= 'wp-git-plugin'; // TODO:
+		const KEY		= 'wp_git_plugin'; // TODO:
+		const NAME		= 'WP-Git Plugin'; // TODO:
+		const VERSION	= '0.1-dev'; // TODO:
 
+		protected $prefix = 'wp_git_plugin_';
+
+		public function __construct() {
+			$this->init();
+
+                if ( !is_admin() ) {
+                        // frontend
+                        $this->frontend_init();
+                }
+
+                if ( is_admin() ) {
+                        // wp-admin
+                        $this->admin_init();
+                        if ( is_network_admin() ) {
+                                // wp-admin/network
+                                $this->network_admin_init();     
+                        }
+                }
+		}
+
+		protected function init() {
+
+		}
+
+		protected function frontend_init() {
+
+		}
+
+		protected function admin_init() {
+            add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
+		}
+
+		protected function network_admin_init() {
+
+		}
+        
 		function __construct() {
 			
 		}
 
 		function localization() {
 			load_plugin_textdomain( 'multisite-plugin-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		}
+        
+        function set_plugin_meta( $links, $file ) {	
+			if ( $file == plugin_basename( __FILE__ ) ) {
+				return array_merge(
+					$links,
+					array( '<a href="https://github.com/wp-repository/wp-git-plugin" target="_blank">GitHub</a>' )
+				);
+			}
+			return $links;
 		}
 
 	} // END class WPGitPlugin
