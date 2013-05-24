@@ -70,12 +70,26 @@ if ( !class_exists('WPGitPlugin') ) {
         }
 
         protected function admin_init() {
-            add_action( 'add_meta_boxes', array( $this, 'properties_meta_boxes') );  
+            add_action( 'add_meta_boxes', array( $this, 'properties_meta_boxes') ); 
+            add_action( 'save_post', array( $this, 'save_meta_data') );
+            add_action( 'admin_menu' , array( $this, 'remove_taxonomy_boxes') );
+            add_action( 'admin_enqueue_scripts', array( &$this, 'admin_scripts'));
             add_filter( 'plugin_row_meta', array( $this, 'set_plugin_meta' ), 10, 2 );
+            
         }
 
         protected function network_admin_init() {
 
+        }
+        
+        function admin_scripts() {
+            wp_register_script('wp-git-js', plugins_url('js/wp-git.js', __FILE__), array(), self::VERSION, true);
+            wp_enqueue_script('wp-git-js');
+        }
+        
+        function remove_taxonomy_boxes() {  
+            remove_meta_box('categorydiv', 'plugin', 'side');
+            remove_meta_box('categorydiv', 'theme', 'side'); 
         }
         
         function add_plugin_cpt() {
@@ -140,8 +154,6 @@ if ( !class_exists('WPGitPlugin') ) {
             );
 
             register_taxonomy( 'plugin-category', array( 'plugin' ), $plugin_tax_args );
-            
-            // TODO: add a meta_box for the parameters like repo, maintainer, etc.
         }
         
         function add_theme_cpt() {
@@ -215,7 +227,7 @@ if ( !class_exists('WPGitPlugin') ) {
             add_meta_box(  
                 'plugin_properties', // $id  
                 __('Plugin Properties', self::ID), // $title   
-                array( $this, 'plugin_meta_box'), // $callback    --- TODO
+                array( $this, 'plugin_meta_box'), // $callback
                 'plugin', // $page  
                 'normal', // $context  
                 'high' // $priority
@@ -224,7 +236,7 @@ if ( !class_exists('WPGitPlugin') ) {
             add_meta_box(  
                 'theme_properties', // $id  
                 __('Theme Properties', self::ID), // $title   
-                array( $this, 'theme_meta_box'), // $callback  --- TODO
+                array( $this, 'theme_meta_box'), // $callback
                 'theme', // $page  
                 'normal', // $context  
                 'high' // $priority
@@ -233,48 +245,75 @@ if ( !class_exists('WPGitPlugin') ) {
         
         // The Callback  
         function plugin_meta_box() {  
-            global $post;
+            global $plugin_meta_fields, $post;
 
             // Field Array  
-            $custom_meta_fields = array(  
+            $plugin_meta_fields = array(  
                 array(  
-                    'label'=> 'Text Input',  
-                    'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'plugin_text',  
-                    'type'  => 'text'  
-                ),  
-                array(  
-                    'label'=> 'Textarea',  
-                    'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'plugin_textarea',  
+                    'label' => __('Description', self::ID),  
+                    'desc'  => __('A description for the field.', self::ID),   
+                    'id'    => $this->prefix.'plugin_desc',  
                     'type'  => 'textarea'  
-                ),  
+                ),
                 array(  
-                    'label'=> 'Checkbox Input',  
-                    'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'plugin_checkbox',  
-                    'type'  => 'checkbox'  
-                ),  
+                    'label' => __('Homepage', self::ID),  
+                    'desc'  => __("URL to the plugin's homepage, begin with http:// or https://", self::ID),
+                    'id'    => $this->prefix.'plugin_url',
+                    'placeholder'    => 'http://',
+                    'type'  => 'text'
+                ),
                 array(  
-                    'label'=> 'Select Box',  
-                    'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'plugin_select',  
-                    'type'  => 'select',  
+                    'label' => __('Category', self::ID),  
+                    'id'    => 'plugin-category',
+                    'type'  => 'tax_select'  
+                ),
+                array(  
+                    'label' => __('Features', self::ID), // TODO: different title
+                    'desc'  => __('Select all included features.', self::ID),  
+                    'id'    => $this->prefix.'plugin_features',  
+                    'type'  => 'checkbox_group',  
                     'options' => array (  
-                        'one' => array (  
-                            'label' => 'Option One',  
-                            'value' => 'one'  
+                        'mu' => array (  
+                            'label' => __('Multisite compatible', self::ID),  
+                            'value' => 'mu'  
                         ),  
-                        'two' => array (  
-                            'label' => 'Option Two',  
-                            'value' => 'two'  
+                        'gettext' => array (  
+                            'label' => __('Translation support', self::ID),  
+                            'value' => 'gettext'  
                         ),  
-                        'three' => array (  
-                            'label' => 'Option Three',  
-                            'value' => 'three'  
+                        'unit' => array (  
+                            'label' => __('Unit testing', self::ID),  
+                            'value' => 'unit'  
                         )  
                     )  
-                )  
+                ),
+                array(  
+                    'label' => __('Slug', self::ID),  
+                    'desc'  => __('The plugin slug.', self::ID),  
+                    'id'    => $this->prefix.'plugin_slug',
+                    'placeholder'    => 'plugin-name',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('GitHub user/org name', self::ID),  
+                    'desc'  => __('The GitHub user or organization hosting the repo.', self::ID),  
+                    'id'    => $this->prefix.'plugin_github_user',
+                    'placeholder'    => 'wp-repository',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('GitHub repo title', self::ID),  
+                    'desc'  => __('The Repository name on GitHub.', self::ID),  
+                    'id'    => $this->prefix.'plugin_github_repo',
+                    'placeholder'    => 'plugin-name',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('Maintainer(s)', self::ID),  
+                    'desc'  => __('Add all maintainers with their GitHub usernames', self::ID),  
+                    'id'    => $this->prefix.'plugin-maintainers',  
+                    'type'  => 'repeatable'  
+                )
             );
 
             // Use nonce for verification  
@@ -282,7 +321,7 @@ if ( !class_exists('WPGitPlugin') ) {
 
             // Begin the field table and loop  
             echo '<table class="form-table">';  
-            foreach ($custom_meta_fields as $field) {  
+            foreach ($plugin_meta_fields as $field) {  
                 // get value of this field if it exists for this post  
                 $meta = get_post_meta($post->ID, $field['id'], true);  
                 // begin a table row with  
@@ -292,7 +331,7 @@ if ( !class_exists('WPGitPlugin') ) {
                         switch($field['type']) {  
                             // text  
                             case 'text':  
-                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" /> 
+                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" placeholder="'.$field['placeholder'].'" /> 
                                     <br /><span class="description">'.$field['desc'].'</span>';  
                             break; 
                             // textarea  
@@ -313,6 +352,49 @@ if ( !class_exists('WPGitPlugin') ) {
                                 }  
                                 echo '</select><br /><span class="description">'.$field['desc'].'</span>';  
                             break; 
+                            // checkbox_group  
+                            case 'checkbox_group':  
+                                foreach ($field['options'] as $option) {  
+                                    echo '<input type="checkbox" value="'.$option['value'].'" name="'.$field['id'].'[]" id="'.$option['value'].'"',$meta && in_array($option['value'], $meta) ? ' checked="checked"' : '',' />  
+                                            <label for="'.$option['value'].'">'.$option['label'].'</label><br />';  
+                                }  
+                                echo '<span class="description">'.$field['desc'].'</span>';  
+                            break;
+                            // tax_select  
+                            case 'tax_select':  
+                                echo '<select name="'.$field['id'].'" id="'.$field['id'].'"> 
+                                        <option value="">' . __('Select One', self::ID) . '</option>'; // Select One  
+                                $terms = get_terms($field['id'], 'get=all');  
+                                $selected = wp_get_object_terms($post->ID, $field['id']);  
+                                foreach ($terms as $term) {  
+                                    if (!empty($selected) && !strcmp($term->slug, $selected[0]->slug))   
+                                        echo '<option value="'.$term->slug.'" selected="selected">'.$term->name.'</option>';   
+                                    else  
+                                        echo '<option value="'.$term->slug.'">'.$term->name.'</option>';   
+                                }  
+                                $taxonomy = get_taxonomy($field['id']);
+                                echo '</select><br /><span class="description"><a href="'.get_bloginfo('home').'/wp-admin/edit-tags.php?taxonomy='.$field['id'].'&post_type=plugin">' . sprintf( __('Manage %s', self::ID), $taxonomy->label ) . '</a></span>';  
+                            break;
+                            // repeatable  
+                            case 'repeatable':  
+                                echo '<a class="repeatable-add button" href="#">+</a> 
+                                        <ul id="'.$field['id'].'-repeatable" class="custom_repeatable">';  
+                                $i = 0;  
+                                if ($meta) {  
+                                    foreach($meta as $row) {  
+                                        echo '<li><span class="sort hndle">|||</span> 
+                                                    <input type="text" name="'.$field['id'].'['.$i.']" id="'.$field['id'].'" value="'.$row.'" size="30" /> 
+                                                    <a class="repeatable-remove button" href="#">-</a></li>';  
+                                        $i++;  
+                                    }  
+                                } else {  
+                                    echo '<li><span class="sort hndle">|||</span> 
+                                                <input type="text" name="'.$field['id'].'['.$i.']" id="'.$field['id'].'" value="" size="30" /> 
+                                                <a class="repeatable-remove button" href="#">-</a></li>';  
+                                }  
+                                echo '</ul> 
+                                    <span class="description">'.$field['desc'].'</span>';  
+                            break;  
                         } //end switch  
                 echo '</td></tr>';  
             } // end foreach  
@@ -322,45 +404,46 @@ if ( !class_exists('WPGitPlugin') ) {
 
         // The Callback  
         function theme_meta_box() {  
-            global $post;
+            global $theme_meta_fields, $post;
 
             // Field Array  
-            $custom_meta_fields = array(  
+            $theme_meta_fields = array(  
                 array(  
-                    'label'=> 'Text Input',  
+                    'label' => 'Text Input',  
                     'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'theme_text',  
+                    'id'    => $this->prefix.'theme_text',
+                    'placeholder'    => 'something',
                     'type'  => 'text'  
                 ),  
                 array(  
-                    'label'=> 'Textarea',  
+                    'label' => 'Textarea',  
                     'desc'  => 'A description for the field.',  
                     'id'    => $this->prefix.'theme_textarea',  
                     'type'  => 'textarea'  
                 ),  
                 array(  
-                    'label'=> 'Checkbox Input',  
+                    'label' => 'Checkbox Input',  
                     'desc'  => 'A description for the field.',  
                     'id'    => $this->prefix.'theme_checkbox',  
                     'type'  => 'checkbox'  
                 ),  
                 array(  
-                    'label'=> 'Select Box',  
-                    'desc'  => 'A description for the field.',  
-                    'id'    => $this->prefix.'theme_select',  
+                    'label' => __('Theme type', self::ID),  
+                    'desc'  => __('A description for the field.', self::ID),  
+                    'id'    => $this->prefix.'theme_type',  
                     'type'  => 'select',  
                     'options' => array (  
                         'one' => array (  
-                            'label' => 'Option One',  
-                            'value' => 'one'  
+                            'label' => __('Standalone', self::ID),  
+                            'value' => 'standalone'  
                         ),  
                         'two' => array (  
-                            'label' => 'Option Two',  
-                            'value' => 'two'  
+                            'label' => __('Child', self::ID),  
+                            'value' => 'child'  
                         ),  
                         'three' => array (  
-                            'label' => 'Option Three',  
-                            'value' => 'three'  
+                            'label' => __('Framework', self::ID),  
+                            'value' => 'framework'  
                         )  
                     )  
                 )  
@@ -371,7 +454,7 @@ if ( !class_exists('WPGitPlugin') ) {
 
             // Begin the field table and loop  
             echo '<table class="form-table">';  
-            foreach ($custom_meta_fields as $field) {  
+            foreach ($theme_meta_fields as $field) {  
                 // get value of this field if it exists for this post  
                 $meta = get_post_meta($post->ID, $field['id'], true);  
                 // begin a table row with  
@@ -384,6 +467,36 @@ if ( !class_exists('WPGitPlugin') ) {
                 echo '</td></tr>';  
             } // end foreach  
             echo '</table>'; // end table  
+        }  
+        
+        // Save the Data  
+        function save_meta_data( $post_id ) {   // TODO $custom_meta_fields vs $plugin/theme_meta_fields
+            global $plugin_meta_fields;  
+
+            // verify nonce  
+            if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))   
+                return $post_id;  
+            // check autosave  
+            if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)  
+                return $post_id;  
+            // check permissions  
+            if ('page' == $_POST['post_type']) {  
+                if (!current_user_can('edit_page', $post_id))  
+                    return $post_id;  
+                } elseif (!current_user_can('edit_post', $post_id)) {  
+                    return $post_id;  
+            }  
+
+            // loop through fields and save the data  
+            foreach ($plugin_meta_fields as $field) {  
+                $old = get_post_meta($post_id, $field['id'], true);  
+                $new = $_POST[$field['id']];  
+                if ($new && $new != $old) {  
+                    update_post_meta($post_id, $field['id'], $new);  
+                } elseif ('' == $new && $old) {  
+                    delete_post_meta($post_id, $field['id'], $old);  
+                }  
+            } // end foreach  
         }  
         
         function activation() {
