@@ -1,7 +1,6 @@
 # WP-Git Plugin
 __Manage SVN2Git mirror sync and other Git-related services for WP-Repository.org__
 
-
 | *                 | WordPress					| Version			| *		| Development				|					|
 | :----             | ----:						| :----				| :---: | :----						| :----				|
 | [Homepage][1.1]   | Requires at least:		| __TBD__			| *		| [GitHub-Repository][1.3]	| [Translate][1.7]	|
@@ -14,6 +13,9 @@ __Manage SVN2Git mirror sync and other Git-related services for WP-Repository.or
 [1.5]: #
 [1.7]: https://translate.foe-services.de/projects/wp-git-plugin
 [1.8]: https://github.com/wp-repository/wp-git-plugin/archive/master.zip
+
+### Dependencies
+* [PHP GitHub API](https://github.com/KnpLabs/php-github-api)
 
 ### Description
 Coming Soon
