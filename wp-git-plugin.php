@@ -4,7 +4,7 @@ Plugin Name: WP-Git Plugin
 Plugin URI: https://github.com/wp-repository/wp-git-plugin
 Description: Manage SVN2Git mirror sync and other Git-related services for WP-Repository.org
 Version: 0.1-dev
-Author: Foe Services Labs
+Author: Foe Services
 Author URI: http://labs.foe-services.de
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,7 @@ Domain Path: /languages
     
     WP-Git Plugin
     
-    Copyright (C) 2013 Foe Services Labs (http://labs.foe-services.de)
+    Copyright (C) 2013 Foe Services (http://labs.foe-services.de)
 
     This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -125,26 +125,26 @@ if ( !class_exists('WPGitPlugin') ) {
             
             // attach hierarchical taxonomy to plugin cpt
             $plugin_tax_labels = array(
-              'name'                => _x('Categories', 'taxonomy general name', self::ID),
-              'singular_name'       => _x('Category', 'taxonomy singular name', self::ID),
-              'search_items'        => __('Search Categories', self::ID),
-              'all_items'           => __('All Categories', self::ID),
-              'parent_item'         => __('Parent Category', self::ID),
-              'parent_item_colon'   => __('Parent Category:', self::ID),
-              'edit_item'           => __('Edit Category', self::ID), 
-              'update_item'         => __('Update Category', self::ID),
-              'add_new_item'        => __('Add New Category', self::ID),
-              'new_item_name'       => __('New Category Name', self::ID),
-              'menu_name'           => __('Categories', self::ID)
+                'name'                => _x('Categories', 'taxonomy general name', self::ID),
+                'singular_name'       => _x('Category', 'taxonomy singular name', self::ID),
+                'search_items'        => __('Search Categories', self::ID),
+                'all_items'           => __('All Categories', self::ID),
+                'parent_item'         => __('Parent Category', self::ID),
+                'parent_item_colon'   => __('Parent Category:', self::ID),
+                'edit_item'           => __('Edit Category', self::ID), 
+                'update_item'         => __('Update Category', self::ID),
+                'add_new_item'        => __('Add New Category', self::ID),
+                'new_item_name'       => __('New Category Name', self::ID),
+                'menu_name'           => __('Categories', self::ID)
             ); 	
 
             $plugin_tax_args = array(
-              'hierarchical'        => true,
-              'labels'              => $plugin_tax_labels,
-              'show_ui'             => true,
-              'show_admin_column'   => true,
-              'query_var'           => true,
-              'rewrite'             => array( 'slug' => 'plugins' )
+                'hierarchical'        => true,
+                'labels'              => $plugin_tax_labels,
+                'show_ui'             => true,
+                'show_admin_column'   => true,
+                'query_var'           => true,
+                'rewrite'             => array( 'slug' => 'plugins' )
             );
 
             register_taxonomy( 'plugin-category', array( 'plugin' ), $plugin_tax_args );
@@ -189,17 +189,17 @@ if ( !class_exists('WPGitPlugin') ) {
             
             // attach hierarchical taxonomy to theme cpt
             $theme_tax_labels = array(
-              'name'                => _x('Categories', 'taxonomy general name', self::ID),
-              'singular_name'       => _x('Category', 'taxonomy singular name', self::ID),
-              'search_items'        => __('Search Categories', self::ID),
-              'all_items'           => __('All Categories', self::ID),
-              'parent_item'         => __('Parent Category', self::ID),
-              'parent_item_colon'   => __('Parent Category:', self::ID),
-              'edit_item'           => __('Edit Category', self::ID), 
-              'update_item'         => __('Update Category', self::ID),
-              'add_new_item'        => __('Add New Category', self::ID),
-              'new_item_name'       => __('New Category Name', self::ID),
-              'menu_name'           => __('Categories', self::ID)
+                'name'                => _x('Categories', 'taxonomy general name', self::ID),
+                'singular_name'       => _x('Category', 'taxonomy singular name', self::ID),
+                'search_items'        => __('Search Categories', self::ID),
+                'all_items'           => __('All Categories', self::ID),
+                'parent_item'         => __('Parent Category', self::ID),
+                'parent_item_colon'   => __('Parent Category:', self::ID),
+                'edit_item'           => __('Edit Category', self::ID), 
+                'update_item'         => __('Update Category', self::ID),
+                'add_new_item'        => __('Add New Category', self::ID),
+                'new_item_name'       => __('New Category Name', self::ID),
+                'menu_name'           => __('Categories', self::ID)
             );  	
 
             $theme_tax_args = array(
