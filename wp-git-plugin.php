@@ -61,8 +61,10 @@ if ( !class_exists('WPGitPlugin') ) {
         }
 
         protected function init() {
-            add_action( 'init', array( $this, 'add_plugin_cpt') );
-            add_action( 'init', array( $this, 'add_theme_cpt') );
+            add_action( 'init', array( $this, 'add_plugin_cpt'  ) );
+            add_action( 'init', array( $this, 'add_theme_cpt'   ) );
+            add_action( 'init', array( $this, 'add_mirror_cpt'  ) );
+            add_action( 'init', array( $this, 'add_project_cpt' ) );
         }
 
         protected function frontend_init() {
@@ -147,7 +149,7 @@ if ( !class_exists('WPGitPlugin') ) {
                 'rewrite'             => array( 'slug' => 'plugins' )
             );
 
-            register_taxonomy( 'plugin-category', array( 'plugin' ), $plugin_tax_args );
+            register_taxonomy( 'plugin_category', array( 'plugin' ), $plugin_tax_args );
         }
         
         function add_theme_cpt() {
@@ -211,9 +213,131 @@ if ( !class_exists('WPGitPlugin') ) {
               'rewrite'             => array( 'slug' => 'themes' )
             );
 
-            register_taxonomy( 'theme-category', array( 'theme' ), $theme_tax_args );
+            register_taxonomy( 'theme_category', array( 'theme' ), $theme_tax_args );
+        }
+        
+        function add_mirror_cpt() {
+            // set lables for themes cpts
+            $mirror_labels = array(
+                'name' => __('Mirrors', self::ID),
+                'singular_name' => __('Mirror', self::ID),
+                'add_new' => __('Add New', self::ID),
+                'add_new_item' => __('Add New Mirror', self::ID),
+                'edit_item' => __('Edit Mirror', self::ID),
+                'new_item' => __('New Mirror', self::ID),
+                'view_item' => __('View Mirror', self::ID),
+                'search_items' => __('Search Mirrors', self::ID),
+                'not_found' =>  __('No Mirrors found', self::ID),
+                'not_found_in_trash' => __('No Mirrors in the trash', self::ID),
+                'parent_item_colon' => '',
+            );
             
-            // TODO: add a meta_box for the parameters like repo, maintainer, etc.
+            // add the themes cpt itself
+            register_post_type(
+                'mirror', 
+                array(
+                    'labels' => $mirror_labels,
+                    'public' => true,
+                    'publicly_queryable' => true,
+                    'show_ui' => true,
+                    'exclude_from_search' => false,
+                    'query_var' => true,
+                    'rewrite' => true, // check
+                    'capability_type' => 'post',
+                    //'capabilities' => '';
+                    'has_archive' => true,
+                    'hierarchical' => false,
+                    'menu_position' => 10,
+                    'supports' => array( 'title' ),
+                    // 'register_meta_box_cb' => 'testimonials_meta_boxes',
+                )
+            );
+            
+            // attach hierarchical taxonomy to theme cpt
+            $mirror_tax_labels = array(
+                'name'                => _x('Categories', 'taxonomy general name', self::ID),
+                'singular_name'       => _x('Category', 'taxonomy singular name', self::ID),
+                'search_items'        => __('Search Categories', self::ID),
+                'all_items'           => __('All Categories', self::ID),
+                'parent_item'         => __('Parent Category', self::ID),
+                'parent_item_colon'   => __('Parent Category:', self::ID),
+                'edit_item'           => __('Edit Category', self::ID), 
+                'update_item'         => __('Update Category', self::ID),
+                'add_new_item'        => __('Add New Category', self::ID),
+                'new_item_name'       => __('New Category Name', self::ID),
+                'menu_name'           => __('Categories', self::ID)
+            );  	
+
+            $mirror_tax_args = array(
+              'hierarchical'        => true,
+              'labels'              => $mirror_tax_labels,
+              'show_ui'             => true,
+              'show_admin_column'   => true,
+              'query_var'           => true,
+              'rewrite'             => array( 'slug' => 'mirrors' )
+            );
+        }
+        
+        function add_project_cpt() {
+            // set lables for themes cpts
+            $project_labels = array(
+                'name' => __('Projects', self::ID),
+                'singular_name' => __('Project', self::ID),
+                'add_new' => __('Add New', self::ID),
+                'add_new_item' => __('Add New Project', self::ID),
+                'edit_item' => __('Edit Project', self::ID),
+                'new_item' => __('New Project', self::ID),
+                'view_item' => __('View Project', self::ID),
+                'search_items' => __('Search Projects', self::ID),
+                'not_found' =>  __('No Projects found', self::ID),
+                'not_found_in_trash' => __('No Projects in the trash', self::ID),
+                'parent_item_colon' => '',
+            );
+            
+            // add the themes cpt itself
+            register_post_type(
+                'project', 
+                array(
+                    'labels' => $project_labels,
+                    'public' => true,
+                    'publicly_queryable' => true,
+                    'show_ui' => true,
+                    'exclude_from_search' => false,
+                    'query_var' => true,
+                    'rewrite' => true, // check
+                    'capability_type' => 'post',
+                    //'capabilities' => '';
+                    'has_archive' => true,
+                    'hierarchical' => false,
+                    'menu_position' => 10,
+                    'supports' => array( 'title' ),
+                    // 'register_meta_box_cb' => 'testimonials_meta_boxes',
+                )
+            );
+            
+            // attach hierarchical taxonomy to theme cpt
+            $project_tax_labels = array(
+                'name'                => _x('Categories', 'taxonomy general name', self::ID),
+                'singular_name'       => _x('Category', 'taxonomy singular name', self::ID),
+                'search_items'        => __('Search Categories', self::ID),
+                'all_items'           => __('All Categories', self::ID),
+                'parent_item'         => __('Parent Category', self::ID),
+                'parent_item_colon'   => __('Parent Category:', self::ID),
+                'edit_item'           => __('Edit Category', self::ID), 
+                'update_item'         => __('Update Category', self::ID),
+                'add_new_item'        => __('Add New Category', self::ID),
+                'new_item_name'       => __('New Category Name', self::ID),
+                'menu_name'           => __('Categories', self::ID)
+            );  	
+
+            $project_tax_args = array(
+              'hierarchical'        => true,
+              'labels'              => $project_tax_labels,
+              'show_ui'             => true,
+              'show_admin_column'   => true,
+              'query_var'           => true,
+              'rewrite'             => array( 'slug' => 'projects' )
+            );
         }
         
         // Add the Meta Boxes  
@@ -232,6 +356,24 @@ if ( !class_exists('WPGitPlugin') ) {
                 __('Theme Properties', self::ID), // $title   
                 array( $this, 'theme_meta_box'), // $callback
                 'theme', // $page  
+                'normal', // $context  
+                'high' // $priority
+            );  
+            
+            add_meta_box(  
+                'mirror_properties', // $id  
+                __('Mirror Properties', self::ID), // $title   
+                array( $this, 'mirror_meta_box'), // $callback
+                'mirror', // $page  
+                'normal', // $context  
+                'high' // $priority
+            );
+            
+            add_meta_box(  
+                'project_properties', // $id  
+                __('Project Properties', self::ID), // $title   
+                array( $this, 'project_meta_box'), // $callback
+                'project', // $page  
                 'normal', // $context  
                 'high' // $priority
             );  
@@ -305,7 +447,7 @@ if ( !class_exists('WPGitPlugin') ) {
             );
 
             // Use nonce for verification  
-            echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';  
+            echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce( basename(__FILE__) ).'" />';  
 
             // Begin the field table and loop  
             echo '<table class="form-table">';  
@@ -439,7 +581,7 @@ if ( !class_exists('WPGitPlugin') ) {
             );
 
             // Use nonce for verification  
-            echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';  
+            echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce( basename(__FILE__) ).'" />';  
 
             // Begin the field table and loop  
             echo '<table class="form-table">';  
@@ -500,40 +642,230 @@ if ( !class_exists('WPGitPlugin') ) {
             echo '</table>'; // end table  
         }  
         
+        // The Callback  
+        function mirror_meta_box() {  
+            global $mirror_meta_fields, $post;
+
+            // Field Array  
+            $mirror_meta_fields = array(
+                array(  
+                    'label' => __('WP.org-Slug', self::ID),  
+                    'desc'  => __('The plugin slug set on WordPress.org', self::ID),  
+                    'id'    => $this->prefix.'mirror_wpslug',
+                    'placeholder'    => 'plugin-name',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label'=> __('Sync interval', self::ID),  
+                    'desc'  => 'A description for the field',  
+                    'id'    => $prefix.'mirror_sync',  
+                    'type'  => 'select',  
+                    'options' => array (  
+                        'hourly' => array (  
+                            'label' => 'normal (1h)',  
+                            'value' => 'hourly'  
+                        ),  
+                        'daily' => array (  
+                            'label' => 'slow (24h)',  
+                            'value' => 'daily'  
+                        ),  
+                        'weekly' => array (  
+                            'label' => 'abandoned (7d)',  
+                            'value' => 'weekly'  
+                        )  
+                    )  
+                )
+            );
+
+            // Use nonce for verification  
+            echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce( basename(__FILE__) ).'" />';  
+
+            // Begin the field table and loop  
+            echo '<table class="form-table">';
+            foreach ($mirror_meta_fields as $field) {  
+                // get value of this field if it exists for this post  
+                $meta = get_post_meta($post->ID, $field['id'], true);  
+                // begin a table row with  
+                echo '<tr> 
+                        <th><label for="'.$field['id'].'">'.$field['label'].'</label></th> 
+                        <td>';  
+                        switch($field['type']) {  
+                            // text  
+                            case 'text':  
+                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" placeholder="'.$field['placeholder'].'" /> 
+                                    <br /><span class="description">'.$field['desc'].'</span>';  
+                            break;  
+                            // select  
+                            case 'select':  
+                                echo '<select name="'.$field['id'].'" id="'.$field['id'].'">';  
+                                foreach ($field['options'] as $option) {  
+                                    echo '<option', $meta == $option['value'] ? ' selected="selected"' : '', ' value="'.$option['value'].'">'.$option['label'].'</option>';  
+                                }  
+                                echo '</select><br /><span class="description">'.$field['desc'].'</span>';  
+                            break;  
+                        } //end switch  
+                echo '</td></tr>';  
+            } // end foreach
+            echo '
+                <tr>
+                    <th>' . __('SVN-Source', self::ID) . ':</th> 
+                    <td>http://plugins.svn.wordpress.org/<code> WP.org-Slug </code>/</td>
+                </tr>';
+            echo '
+                <tr>
+                    <th>' . __('Homepage', self::ID) . ':</th> 
+                    <td>http://wordpress.org/plugins/<code> WP.org-Slug </code>/</td>
+                </tr>';
+            echo '
+                <tr>
+                    <th>' . __('GitHub Target-Repo', self::ID) . ':</th> 
+                    <td>https://github.com/wp-mirrors/<code> WP.org-Slug </code>/</td>
+                </tr>';
+            echo '
+                <tr>
+                    <th>' . __('Repo Description', self::ID) . ':</th> 
+                    <td>WordPress-Mirror: <code> Plugin name </code> SVN repository (http://plugins.svn.wordpress.org/<code> WP.org-Slug </code>/)</td>
+                </tr>';
+            echo '
+                <tr>
+                    <th>' . __('Repo Link', self::ID) . ':</th> 
+                    <td>http://wordpress.org/plugins/<code> WP.org-Slug </code>/</td>
+                </tr>';
+            echo '</table>'; // end table
+        }
+        
+        // The Callback  
+        function project_meta_box() {  
+            global $project_meta_fields, $post;
+
+            // Field Array  
+            $project_meta_fields = array(  
+                array(  
+                    'label' => __('Slug', self::ID),  
+                    'desc'  => __('The plugin slug.', self::ID),  
+                    'id'    => $this->prefix.'project_slug',
+                    'placeholder'    => 'plugin-name',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('WP.org-Slug', self::ID),  
+                    'desc'  => __('The plugin slug set on WordPress.org', self::ID),  
+                    'id'    => $this->prefix.'project_wpslug',
+                    'placeholder'    => 'plugin-name',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('<b>NO</b> WordPress.org Plugin', self::ID),  
+                    'desc'  => __('Check if the plugin is <b>NOT</b> listed on WP.org', self::ID),  
+                    'id'    => $prefix.'project_nowporg',
+                    'type'  => 'checkbox'
+                ), 
+                array(  
+                    'label' => __('GitHub user/org name', self::ID),  
+                    'desc'  => __('The GitHub user or organization hosting the repo.', self::ID),  
+                    'id'    => $this->prefix.'project_ghuser',
+                    'placeholder'    => 'wp-repository',
+                    'type'  => 'text'
+                ),
+                array(  
+                    'label' => __('GitHub repo title', self::ID),  
+                    'desc'  => __('The Repository name on GitHub.', self::ID),  
+                    'id'    => $this->prefix.'project_ghrepo',
+                    'placeholder'    => 'plugin-name',
+                    'type'  => 'text'
+                )
+            );
+
+            // Use nonce for verification  
+            echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce( basename(__FILE__) ).'" />';  
+
+            // Begin the field table and loop  
+            echo '<table class="form-table">';
+            echo '
+                <tr>
+                    <th>' . __('Before creating a new project', self::ID) . '</th> 
+                    <td>' . sprintf( __('Make sure you add the %s wordpress.org-user to the svn-repo to allow push access for the platform', self::ID), '<code>wp-repository</code>') . '</td>
+                </tr>';
+            foreach ($project_meta_fields as $field) {  
+                // get value of this field if it exists for this post  
+                $meta = get_post_meta($post->ID, $field['id'], true);  
+                // begin a table row with  
+                echo '<tr> 
+                        <th><label for="'.$field['id'].'">'.$field['label'].'</label></th> 
+                        <td>';  
+                        switch($field['type']) {  
+                            // text  
+                            case 'text':  
+                                echo '<input type="text" name="'.$field['id'].'" id="'.$field['id'].'" value="'.$meta.'" size="30" placeholder="'.$field['placeholder'].'" /> 
+                                    <br /><span class="description">'.$field['desc'].'</span>';  
+                            break;
+                            // checkbox  
+                            case 'checkbox':  
+                                echo '<input type="checkbox" name="'.$field['id'].'" id="'.$field['id'].'" ',$meta ? ' checked="checked"' : '','/> 
+                                    <label for="'.$field['id'].'">'.$field['desc'].'</label>';  
+                            break;
+                        } //end switch  
+                echo '</td></tr>';  
+            } // end foreach
+            echo '
+                <tr>
+                    <th>' . __('SVN-Target', self::ID) . ':</th> 
+                    <td>http://plugins.svn.wordpress.org/<code> WP.org-Slug </code>/</td>
+                </tr>';
+            echo '
+                <tr>
+                    <th>' . __('GlotPress', self::ID) . ':</th> 
+                    <td>https://translate.wp-repository.org/projects/<code> WP.org-Slug </code>/</td>
+                </tr>';
+            echo '</table>'; // end table 
+            
+            /*
+             * On creation:
+             * 1.: git clone <git-repo> to wp-git.org server
+             * 2.: add svn target to git
+             * 3.: add project to translate.wp-repository.org
+             *  3.1.: generate .pot file
+             *  3.2.: import (.pot) gettext strings to glotpress project 
+             */
+
+        }
+        
         // Save the Data  
         function save_meta_data( $post_id ) {   // TODO $custom_meta_fields vs $plugin/theme_meta_fields
-            global $plugin_meta_fields;  
-
-            // verify nonce  
-            if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))   
-                return $post_id;  
-            // check autosave  
-            if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)  
-                return $post_id;  
-            // check permissions  
-            if ('page' == $_POST['post_type']) {  
-                if (!current_user_can('edit_page', $post_id))  
-                    return $post_id;  
-                } elseif (!current_user_can('edit_post', $post_id)) {  
-                    return $post_id;  
-            }  
-
-            // loop through fields and save the data  
-            foreach ($plugin_meta_fields as $field) {  
-                $old = get_post_meta($post_id, $field['id'], true);  
-                $new = $_POST[$field['id']];  
-                if ($new && $new != $old) {  
-                    update_post_meta($post_id, $field['id'], $new);  
-                } elseif ('' == $new && $old) {  
-                    delete_post_meta($post_id, $field['id'], $old);  
-                }  
-            } // end foreach  
+//            global $plugin_meta_fields;  
+//
+//            // verify nonce  
+//            if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))   
+//                return $post_id;  
+//            // check autosave  
+//            if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)  
+//                return $post_id;  
+//            // check permissions  
+//            if ('page' == $_POST['post_type']) {  
+//                if (!current_user_can('edit_page', $post_id))  
+//                    return $post_id;  
+//                } elseif (!current_user_can('edit_post', $post_id)) {  
+//                    return $post_id;  
+//            }  
+//
+//            // loop through fields and save the data  
+//            foreach ($plugin_meta_fields as $field) {  
+//                $old = get_post_meta($post_id, $field['id'], true);  
+//                $new = $_POST[$field['id']];  
+//                if ($new && $new != $old) {  
+//                    update_post_meta($post_id, $field['id'], $new);  
+//                } elseif ('' == $new && $old) {  
+//                    delete_post_meta($post_id, $field['id'], $old);  
+//                }  
+//            } // end foreach  
         }  
         
         function activation() {
             // add CPTs to the system
             WPGitPlugin::add_plugin_cpt();
             WPGitPlugin::add_theme_cpt();
+            WPGitPlugin::add_mirror_cpt();
+            WPGitPlugin::add_project_cpt();
 
             // flush the rewrites to add CPTs
             flush_rewrite_rules();
