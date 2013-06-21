@@ -10,6 +10,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wp-git-plugins
 Domain Path: /languages
+ 
+REQUIREMENT: m4tthumphrey/php-gitlab-api: 0.* via composer
     
     WP-Git Plugin
     
