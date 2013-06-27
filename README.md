@@ -1,6 +1,8 @@
 # WP-Git Plugin
 __Manage SVN2Git mirror sync and other Git-related services for WP-Repository.org__
 
+Master: [![Build Status](https://travis-ci.org/wp-repository/wp-git-plugin.png?branch=master)](https://travis-ci.org/wp-repository/wp-git-plugin)
+
 | *                 | WordPress					| Version			| *		| Development				|					|
 | :----             | ----:						| :----				| :---: | :----						| :----				|
 | [Homepage][1.1]   | Requires at least:		| __TBD__			| *		| [GitHub-Repository][1.3]	| [Translate][1.7]	|
@@ -51,7 +53,9 @@ __[GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)__
 
 
 ## Changelog
-* __0.1-dev__ _[future plans/roadmap][4.1]_
-	* TBD
+* __TODO__ _[future plans/roadmap][4.1]_
+	* custom unit tests
+* __0.1-dev__
+	* added build testing via travis-ci.org (https://travis-ci.org/wp-repository/wp-git-plugin)
 
 [4.1]: ../../issues
