@@ -21,6 +21,7 @@ env:
   - WP_VERSION=3.5.2 WP_MULTISITE=0
 
 # Grab the setup script and execute
+# @TODO need to load composer + the required SDKs
 before_script:
     - wget https://raw.github.com/wp-repository/wp-repository.codex/phpunit-generic/setup.sh
     - source setup.sh
