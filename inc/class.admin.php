@@ -37,7 +37,7 @@ class WPGitPlugin_Admin extends WPGitPlugin {
 	function properties_meta_boxes() {  
 		add_meta_box(  
 			'plugin_properties', // $id  
-			__('Plugin Properties', WPGIT_NAME), // $title   
+			__(' Plugin Properties', 'wp-git-plugins'), // $title   
 			array( $this, 'plugin_meta_box'), // $callback
 			'plugin', // $page  
 			'normal', // $context  
@@ -46,7 +46,7 @@ class WPGitPlugin_Admin extends WPGitPlugin {
 
 		add_meta_box(  
 			'theme_properties', // $id  
-			__('Theme Properties', WPGIT_NAME), // $title   
+			__(' Theme Properties', 'wp-git-plugins'), // $title   
 			array( $this, 'theme_meta_box'), // $callback
 			'theme', // $page  
 			'normal', // $context  
@@ -55,7 +55,7 @@ class WPGitPlugin_Admin extends WPGitPlugin {
 
 		add_meta_box(  
 			'mirror_properties', // $id  
-			__('Mirror Properties', WPGIT_NAME), // $title   
+			__(' Mirror Properties', 'wp-git-plugins'), // $title   
 			array( $this, 'mirror_meta_box'), // $callback
 			'mirror', // $page  
 			'normal', // $context  
@@ -64,7 +64,7 @@ class WPGitPlugin_Admin extends WPGitPlugin {
 
 		add_meta_box(  
 			'project_properties', // $id  
-			__('Project Properties', WPGIT_NAME), // $title   
+			__(' Project Properties', 'wp-git-plugins'), // $title   
 			array( $this, 'project_meta_box'), // $callback
 			'project', // $page  
 			'normal', // $context  

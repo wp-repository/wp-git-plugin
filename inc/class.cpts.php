@@ -26,16 +26,16 @@ class WPGitPlugin_CPTs extends WPGitPlugin {
 	function init_cpts() {
 		// set lables for plugins cpts
 		$plugin_labels = array(
-			'name' => __('Plugins', WPGIT_NAME),
-			'singular_name' => __('Plugin', WPGIT_NAME),
-			'add_new' => __('Add New', WPGIT_NAME),
-			'add_new_item' => __('Add New Plugin', WPGIT_NAME),
-			'edit_item' => __('Edit Plugin', WPGIT_NAME),
-			'new_item' => __('New Plugin', WPGIT_NAME),
-			'view_item' => __('View Plugin', WPGIT_NAME),
-			'search_items' => __('Search Plugins', WPGIT_NAME),
-			'not_found' =>  __('No Plugins found', WPGIT_NAME),
-			'not_found_in_trash' => __('No Plugins in the trash', WPGIT_NAME),
+			'name' => __(' Plugins', 'wp-git-plugins'),
+			'singular_name' => __(' Plugin', 'wp-git-plugins'),
+			'add_new' => __(' Add New', 'wp-git-plugins'),
+			'add_new_item' => __(' Add New Plugin', 'wp-git-plugins'),
+			'edit_item' => __(' Edit Plugin', 'wp-git-plugins'),
+			'new_item' => __(' New Plugin', 'wp-git-plugins'),
+			'view_item' => __(' View Plugin', 'wp-git-plugins'),
+			'search_items' => __(' Search Plugins', 'wp-git-plugins'),
+			'not_found' =>  __(' No Plugins found', 'wp-git-plugins'),
+			'not_found_in_trash' => __(' No Plugins in the trash', 'wp-git-plugins'),
 			'parent_item_colon' => '',
 		);
 
@@ -62,17 +62,17 @@ class WPGitPlugin_CPTs extends WPGitPlugin {
 
 		// attach hierarchical taxonomy to plugin cpt
 		$plugin_tax_labels = array(
-			'name'                => _x('Categories', 'taxonomy general name', WPGIT_NAME),
-			'singular_name'       => _x('Category', 'taxonomy singular name', WPGIT_NAME),
-			'search_items'        => __('Search Categories', WPGIT_NAME),
-			'all_items'           => __('All Categories', WPGIT_NAME),
-			'parent_item'         => __('Parent Category', WPGIT_NAME),
-			'parent_item_colon'   => __('Parent Category:', WPGIT_NAME),
-			'edit_item'           => __('Edit Category', WPGIT_NAME), 
-			'update_item'         => __('Update Category', WPGIT_NAME),
-			'add_new_item'        => __('Add New Category', WPGIT_NAME),
-			'new_item_name'       => __('New Category Name', WPGIT_NAME),
-			'menu_name'           => __('Categories', WPGIT_NAME)
+			'name'                => _x('Categories', 'taxonomy general name', 'wp-git-plugins'),
+			'singular_name'       => _x('Category', 'taxonomy singular name', 'wp-git-plugins'),
+			'search_items'        => __(' Search Categories', 'wp-git-plugins'),
+			'all_items'           => __(' All Categories', 'wp-git-plugins'),
+			'parent_item'         => __(' Parent Category', 'wp-git-plugins'),
+			'parent_item_colon'   => __(' Parent Category:', 'wp-git-plugins'),
+			'edit_item'           => __(' Edit Category', 'wp-git-plugins'), 
+			'update_item'         => __(' Update Category', 'wp-git-plugins'),
+			'add_new_item'        => __(' Add New Category', 'wp-git-plugins'),
+			'new_item_name'       => __(' New Category Name', 'wp-git-plugins'),
+			'menu_name'           => __(' Categories', 'wp-git-plugins')
 		); 	
 
 		$plugin_tax_args = array(
@@ -88,16 +88,16 @@ class WPGitPlugin_CPTs extends WPGitPlugin {
 	
 		// set lables for themes cpts
 		$themes_labels = array(
-			'name' => __('Themes', WPGIT_NAME),
-			'singular_name' => __('Theme', WPGIT_NAME),
-			'add_new' => __('Add New', WPGIT_NAME),
-			'add_new_item' => __('Add New Theme', WPGIT_NAME),
-			'edit_item' => __('Edit Theme', WPGIT_NAME),
-			'new_item' => __('New Theme', WPGIT_NAME),
-			'view_item' => __('View Theme', WPGIT_NAME),
-			'search_items' => __('Search Themes', WPGIT_NAME),
-			'not_found' =>  __('No Themes found', WPGIT_NAME),
-			'not_found_in_trash' => __('No Themes in the trash', WPGIT_NAME),
+			'name' => __(' Themes', 'wp-git-plugins'),
+			'singular_name' => __(' Theme', 'wp-git-plugins'),
+			'add_new' => __(' Add New', 'wp-git-plugins'),
+			'add_new_item' => __(' Add New Theme', 'wp-git-plugins'),
+			'edit_item' => __(' Edit Theme', 'wp-git-plugins'),
+			'new_item' => __(' New Theme', 'wp-git-plugins'),
+			'view_item' => __(' View Theme', 'wp-git-plugins'),
+			'search_items' => __(' Search Themes', 'wp-git-plugins'),
+			'not_found' =>  __(' No Themes found', 'wp-git-plugins'),
+			'not_found_in_trash' => __(' No Themes in the trash', 'wp-git-plugins'),
 			'parent_item_colon' => '',
 		);
 
@@ -124,17 +124,17 @@ class WPGitPlugin_CPTs extends WPGitPlugin {
             
 		// attach hierarchical taxonomy to theme cpt
 		$theme_tax_labels = array(
-			'name'                => _x('Categories', 'taxonomy general name', WPGIT_NAME),
-			'singular_name'       => _x('Category', 'taxonomy singular name', WPGIT_NAME),
-			'search_items'        => __('Search Categories', WPGIT_NAME),
-			'all_items'           => __('All Categories', WPGIT_NAME),
-			'parent_item'         => __('Parent Category', WPGIT_NAME),
-			'parent_item_colon'   => __('Parent Category:', WPGIT_NAME),
-			'edit_item'           => __('Edit Category', WPGIT_NAME), 
-			'update_item'         => __('Update Category', WPGIT_NAME),
-			'add_new_item'        => __('Add New Category', WPGIT_NAME),
-			'new_item_name'       => __('New Category Name', WPGIT_NAME),
-			'menu_name'           => __('Categories', WPGIT_NAME)
+			'name'                => _x('Categories', 'taxonomy general name', 'wp-git-plugins'),
+			'singular_name'       => _x('Category', 'taxonomy singular name', 'wp-git-plugins'),
+			'search_items'        => __(' Search Categories', 'wp-git-plugins'),
+			'all_items'           => __(' All Categories', 'wp-git-plugins'),
+			'parent_item'         => __(' Parent Category', 'wp-git-plugins'),
+			'parent_item_colon'   => __(' Parent Category:', 'wp-git-plugins'),
+			'edit_item'           => __(' Edit Category', 'wp-git-plugins'), 
+			'update_item'         => __(' Update Category', 'wp-git-plugins'),
+			'add_new_item'        => __(' Add New Category', 'wp-git-plugins'),
+			'new_item_name'       => __(' New Category Name', 'wp-git-plugins'),
+			'menu_name'           => __(' Categories', 'wp-git-plugins')
 		);  	
 
 		$theme_tax_args = array(
@@ -150,16 +150,16 @@ class WPGitPlugin_CPTs extends WPGitPlugin {
 
 		// set lables for themes cpts
 		$mirror_labels = array(
-			'name' => __('Mirrors', WPGIT_NAME),
-			'singular_name' => __('Mirror', WPGIT_NAME),
-			'add_new' => __('Add New', WPGIT_NAME),
-			'add_new_item' => __('Add New Mirror', WPGIT_NAME),
-			'edit_item' => __('Edit Mirror', WPGIT_NAME),
-			'new_item' => __('New Mirror', WPGIT_NAME),
-			'view_item' => __('View Mirror', WPGIT_NAME),
-			'search_items' => __('Search Mirrors', WPGIT_NAME),
-			'not_found' =>  __('No Mirrors found', WPGIT_NAME),
-			'not_found_in_trash' => __('No Mirrors in the trash', WPGIT_NAME),
+			'name' => __(' Mirrors', 'wp-git-plugins'),
+			'singular_name' => __(' Mirror', 'wp-git-plugins'),
+			'add_new' => __(' Add New', 'wp-git-plugins'),
+			'add_new_item' => __(' Add New Mirror', 'wp-git-plugins'),
+			'edit_item' => __(' Edit Mirror', 'wp-git-plugins'),
+			'new_item' => __(' New Mirror', 'wp-git-plugins'),
+			'view_item' => __(' View Mirror', 'wp-git-plugins'),
+			'search_items' => __(' Search Mirrors', 'wp-git-plugins'),
+			'not_found' =>  __(' No Mirrors found', 'wp-git-plugins'),
+			'not_found_in_trash' => __(' No Mirrors in the trash', 'wp-git-plugins'),
 			'parent_item_colon' => '',
 		);
 
@@ -186,17 +186,17 @@ class WPGitPlugin_CPTs extends WPGitPlugin {
             
 		// attach hierarchical taxonomy to theme cpt
 		$mirror_tax_labels = array(
-			'name'                => _x('Categories', 'taxonomy general name', WPGIT_NAME),
-			'singular_name'       => _x('Category', 'taxonomy singular name', WPGIT_NAME),
-			'search_items'        => __('Search Categories', WPGIT_NAME),
-			'all_items'           => __('All Categories', WPGIT_NAME),
-			'parent_item'         => __('Parent Category', WPGIT_NAME),
-			'parent_item_colon'   => __('Parent Category:', WPGIT_NAME),
-			'edit_item'           => __('Edit Category', WPGIT_NAME), 
-			'update_item'         => __('Update Category', WPGIT_NAME),
-			'add_new_item'        => __('Add New Category', WPGIT_NAME),
-			'new_item_name'       => __('New Category Name', WPGIT_NAME),
-			'menu_name'           => __('Categories', WPGIT_NAME)
+			'name'                => _x('Categories', 'taxonomy general name', 'wp-git-plugins'),
+			'singular_name'       => _x('Category', 'taxonomy singular name', 'wp-git-plugins'),
+			'search_items'        => __(' Search Categories', 'wp-git-plugins'),
+			'all_items'           => __(' All Categories', 'wp-git-plugins'),
+			'parent_item'         => __(' Parent Category', 'wp-git-plugins'),
+			'parent_item_colon'   => __(' Parent Category:', 'wp-git-plugins'),
+			'edit_item'           => __(' Edit Category', 'wp-git-plugins'), 
+			'update_item'         => __(' Update Category', 'wp-git-plugins'),
+			'add_new_item'        => __(' Add New Category', 'wp-git-plugins'),
+			'new_item_name'       => __(' New Category Name', 'wp-git-plugins'),
+			'menu_name'           => __(' Categories', 'wp-git-plugins')
 		);  	
 
 		$mirror_tax_args = array(
@@ -210,16 +210,16 @@ class WPGitPlugin_CPTs extends WPGitPlugin {
 
 		// set lables for themes cpts
 		$project_labels = array(
-			'name' => __('Projects', WPGIT_NAME),
-			'singular_name' => __('Project', WPGIT_NAME),
-			'add_new' => __('Add New', WPGIT_NAME),
-			'add_new_item' => __('Add New Project', WPGIT_NAME),
-			'edit_item' => __('Edit Project', WPGIT_NAME),
-			'new_item' => __('New Project', WPGIT_NAME),
-			'view_item' => __('View Project', WPGIT_NAME),
-			'search_items' => __('Search Projects', WPGIT_NAME),
-			'not_found' =>  __('No Projects found', WPGIT_NAME),
-			'not_found_in_trash' => __('No Projects in the trash', WPGIT_NAME),
+			'name' => __(' Projects', 'wp-git-plugins'),
+			'singular_name' => __(' Project', 'wp-git-plugins'),
+			'add_new' => __(' Add New', 'wp-git-plugins'),
+			'add_new_item' => __(' Add New Project', 'wp-git-plugins'),
+			'edit_item' => __(' Edit Project', 'wp-git-plugins'),
+			'new_item' => __(' New Project', 'wp-git-plugins'),
+			'view_item' => __(' View Project', 'wp-git-plugins'),
+			'search_items' => __(' Search Projects', 'wp-git-plugins'),
+			'not_found' =>  __(' No Projects found', 'wp-git-plugins'),
+			'not_found_in_trash' => __(' No Projects in the trash', 'wp-git-plugins'),
 			'parent_item_colon' => '',
 		);
 
@@ -246,17 +246,17 @@ class WPGitPlugin_CPTs extends WPGitPlugin {
             
 		// attach hierarchical taxonomy to theme cpt
 		$project_tax_labels = array(
-			'name'                => _x('Categories', 'taxonomy general name', WPGIT_NAME),
-			'singular_name'       => _x('Category', 'taxonomy singular name', WPGIT_NAME),
-			'search_items'        => __('Search Categories', WPGIT_NAME),
-			'all_items'           => __('All Categories', WPGIT_NAME),
-			'parent_item'         => __('Parent Category', WPGIT_NAME),
-			'parent_item_colon'   => __('Parent Category:', WPGIT_NAME),
-			'edit_item'           => __('Edit Category', WPGIT_NAME), 
-			'update_item'         => __('Update Category', WPGIT_NAME),
-			'add_new_item'        => __('Add New Category', WPGIT_NAME),
-			'new_item_name'       => __('New Category Name', WPGIT_NAME),
-			'menu_name'           => __('Categories', WPGIT_NAME)
+			'name'                => _x('Categories', 'taxonomy general name', 'wp-git-plugins'),
+			'singular_name'       => _x('Category', 'taxonomy singular name', 'wp-git-plugins'),
+			'search_items'        => __(' Search Categories', 'wp-git-plugins'),
+			'all_items'           => __(' All Categories', 'wp-git-plugins'),
+			'parent_item'         => __(' Parent Category', 'wp-git-plugins'),
+			'parent_item_colon'   => __(' Parent Category:', 'wp-git-plugins'),
+			'edit_item'           => __(' Edit Category', 'wp-git-plugins'), 
+			'update_item'         => __(' Update Category', 'wp-git-plugins'),
+			'add_new_item'        => __(' Add New Category', 'wp-git-plugins'),
+			'new_item_name'       => __(' New Category Name', 'wp-git-plugins'),
+			'menu_name'           => __(' Categories', 'wp-git-plugins')
 		);  	
 
 		$project_tax_args = array(
