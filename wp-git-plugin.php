@@ -71,7 +71,7 @@ if ( ! class_exists('WPGitPlugin') ) {
 		// Plugin instance
 		protected static $instance = NULL;
 
-        public function __construct() {			
+        public function __construct() {
 			$this->load_classes();
 
             register_activation_hook( __FILE__, array( 'WPGitPlugin', 'activate_plugin') );
