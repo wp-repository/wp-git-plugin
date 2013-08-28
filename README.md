@@ -35,8 +35,7 @@ Coming Soon
 __[GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)__
 
 	WP-Git Plugin
-
-	Copyright (C) 2013 Foe Services Labs (http://labs.foe-services.de)
+	Copyright (C) 2013 Foe Services (http://foe-services.de)
 
     This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -58,4 +57,4 @@ __[GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)__
 * __0.1-dev__
 	* added build testing via travis-ci.org (https://travis-ci.org/wp-repository/wp-git-plugin)
 
-[4.1]: ../../issues
+[4.1]: https://github.com/wp-repository/wp-git-plugin/issues
