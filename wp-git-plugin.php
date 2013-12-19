@@ -3,12 +3,12 @@
 Plugin Name: WP-Git Plugin
 Plugin URI: https://github.com/wp-repository/wp-git-plugin
 Description: Manage SVN2Git mirror sync and other Git-related services for WP-Repository.org
-Version: 0.1-dev
+Version: 1.0-beta
 Author: Foe Services
 Author URI: http://labs.foe-services.de
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: wp-git-plugins
+Text Domain: wp-git-plugin
 Domain Path: /languages
  
 REQUIREMENT: m4tthumphrey/php-gitlab-api: 0.* via composer
@@ -60,7 +60,6 @@ class WPGit {
 	 * @var string
 	 */
 	public $version = '1.0-beta';
-	// public $db_version = '1';
 
 	/**
 	 * Holds a copy of the main plugin filepath.
@@ -70,7 +69,12 @@ class WPGit {
 	 * @var string
 	 */
 	private static $file = __FILE__;
-
+	
+	/**
+	 * Constructor. Hooks all interactions to initialize the class.
+	 *
+	 * @since 1.0.0
+	 */
 	public function __construct() {
 		
 		add_action( 'init', array( $this, 'init' ) );
@@ -87,9 +91,11 @@ class WPGit {
 	 */
 	public function init() {
 		
+		$wpgit_cpts = new WPGit_CPTs();
+		
 		if ( is_admin() ) {
 			
-			$wpc_languageservices_admin = new WPC_LanguageServices_Admin();
+			$wpgit_admin = new WPGit_Admin();
 			
 		}
 		
@@ -161,8 +167,6 @@ class WPGit {
 
 
 		add_action( 'save_post', array( $this, 'save_meta_data') );
-
-
 
 	}
 
@@ -645,7 +649,22 @@ class WPGit {
 //                    delete_post_meta($post_id, $field['id'], $old);  
 //                }  
 //            } // end foreach  
-	}  
+	}
+	
+	/**
+	 * Load the plugin's textdomain hooked to 'plugins_loaded'.
+	 *
+	 * @since 1.0.0
+	 */
+	function load_plugin_textdomain() {
+		
+		load_plugin_textdomain(
+			'wp-git-plugin',
+			false,
+			dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+		);
+		
+	}
 
 	function activate_plugin() {
 		// add CPTs to the system
@@ -658,10 +677,6 @@ class WPGit {
 	function deactivate_plugin() {
 		// flush the rewrites to remove CPTs
 		flush_rewrite_rules();
-	}
-
-	function localization() {
-		load_plugin_textdomain( 'wp-git-plugin', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 } // END class WPGit
